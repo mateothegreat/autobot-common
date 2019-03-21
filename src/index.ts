@@ -8,3 +8,4 @@ export * from './Common/CommandParser';
 export * from './Common/Event';
 export * from './Common/EventObjectType';
 export * from './Common/Logger';
+export * from './Common/DB';

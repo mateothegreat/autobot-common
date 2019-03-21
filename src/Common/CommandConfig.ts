@@ -10,5 +10,6 @@ export class CommandConfig {
     public description?: string;
     public params?: CommandParam[];
     public roles?: string[];
+    public entities?: any[];
 
 }

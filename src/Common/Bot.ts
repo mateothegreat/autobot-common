@@ -4,6 +4,7 @@ import * as dotenv                     from 'dotenv';
 import * as glob                       from 'glob';
 import { CommandBase }                 from './CommandBase';
 import { CommandParser, MESSAGE_TYPE } from './CommandParser';
+import { DB }                          from './DB';
 import { Event }                       from './Event';
 import { EVENT_OBJECT }                from './EventObjectType';
 import { Logger }                      from './Logger';
@@ -12,7 +13,6 @@ import { Logger }                      from './Logger';
 // Load .env into process.env
 //
 dotenv.config();
-
 
 class Bot {
 
@@ -27,6 +27,11 @@ class Bot {
     public commands: Array<CommandBase> = [];
 
     /**
+     * Array of Database Entities
+     */
+    private entities: Array<any> = [];
+
+    /**
      * Called by the @Command decorated classes
      *
      * @param commandRef Command class reference.
@@ -34,6 +39,8 @@ class Bot {
     public register(commandRef: CommandBase): void {
 
         this.commands.push(commandRef);
+
+        this.entities = [ ...this.entities, commandRef.config.entities ];
 
         Logger.log(`Command Registered: ${ commandRef.config.name } (${ commandRef.config.description })`);
 
@@ -43,6 +50,15 @@ class Bot {
      * Start the bot.
      */
     public async start() {
+
+        //
+        // Connect to database
+        //
+        if (this.entities.length > 0) {
+
+            DB.connect();
+            
+        }
 
         //
         // Bind discord.js events
