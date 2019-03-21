@@ -52,15 +52,6 @@ class Bot {
     public async start() {
 
         //
-        // Connect to database
-        //
-        if (this.entities.length > 0) {
-
-            DB.connect();
-            
-        }
-
-        //
         // Bind discord.js events
         //
         this.client.on('message', (message: MESSAGE_TYPE) => this.handleMessage(Event.MESSAGE, message));
@@ -76,6 +67,17 @@ class Bot {
         await glob('node_modules/@autobot/command-*', (err: any, commands: any) => {
 
             commands.map((command: CommandBase) => require('../../../../../' + command));
+
+            //
+            // Connect to database
+            //
+            if (this.entities.length > 0) {
+
+                DB.connect();
+
+                Logger.log('Database Connected');
+
+            }
 
         });
 
