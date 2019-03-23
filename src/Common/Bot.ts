@@ -64,7 +64,7 @@ class Bot {
         //
         // require('../Commands');
 
-        await glob('node_modules/@autobot/command-*', (err: any, commands: any) => {
+        await glob('node_modules/@autobot/module-*', (err: any, commands: any) => {
 
             commands.map((command: CommandBase) => require('../../../../../' + command));
 
@@ -74,8 +74,6 @@ class Bot {
             if (this.entities.length > 0) {
 
                 DB.connect();
-
-                Logger.log('Database Connected');
 
             }
 
